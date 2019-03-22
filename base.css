@@ -1,0 +1,33 @@
+div {
+  width: 48%;
+}
+
+#left_side {
+  float: left;
+  height: 100vh;
+  margin-right: 1%;
+  border-width: 1%;
+  border-right-style: solid;
+  border-radius: 20px
+}
+
+#right_side {
+  background-color: white;
+  color: black;
+  float: right;
+  height: 100vh;
+  margin-left: 1%; 
+  border-width: 1%;
+  border-left-style: solid;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.base_div {
+  width: 100%;
+  padding-top: 5%;
+}
+
+tr {
+  text-align: center;
+}
