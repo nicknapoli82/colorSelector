@@ -15,16 +15,14 @@ let backgroundColorValue = {r: document.getElementById("bv_r"),
 			    b: document.getElementById("bv_b"),
 			    a: document.getElementById("bv_a")};
 
-let text_last = { r: textColorValue.r.value,
-		  g: textColorValue.g.value,
-		  b: textColorValue.b.value,
-		  a: textColorValue.a.value };
+let text_difference = { r: { g: 0, b: 0 },
+			g: { r: 0, b: 0 },
+			b: { r: 0, g: 0 } };
 
-let background_last = { r: backgroundColorValue.r.value,
-			g: backgroundColorValue.g.value,
-			b: backgroundColorValue.b.value,
-			a: backgroundColorValue.a.value };
 
+let background_difference = { r: { g: 0, b: 0 },
+			      g: { r: 0, b: 0 },
+			      b: { r: 0, g: 0 } };
 
 let rightSide = document.getElementById("right_side");
 
@@ -38,6 +36,12 @@ function text_bond(elem) {
 	elem.style.backgroundColor = "red";
 	elem.style.color = "white";
 	textBond = true;
+	text_difference.r.g = textColorValue.g.value - textColorValue.r.value;
+	text_difference.r.b = textColorValue.b.value - textColorValue.r.value;
+	text_difference.g.r = textColorValue.r.value - textColorValue.g.value;
+	text_difference.g.b = textColorValue.b.value - textColorValue.g.value;
+	text_difference.b.r = textColorValue.r.value - textColorValue.b.value;
+	text_difference.b.g = textColorValue.g.value - textColorValue.b.value;
     }
     else {
 	elem.style.backgroundColor = "white";
@@ -51,6 +55,12 @@ function background_bond(elem) {
 	elem.style.backgroundColor = "red";
 	elem.style.color = "white";
 	backgroundBond = true;
+	background_difference.r.g = backgroundColorValue.g.value - backgroundColorValue.r.value;
+	background_difference.r.b = backgroundColorValue.b.value - backgroundColorValue.r.value;
+	background_difference.g.r = backgroundColorValue.r.value - backgroundColorValue.g.value;
+	background_difference.g.b = backgroundColorValue.b.value - backgroundColorValue.g.value;
+	background_difference.b.r = backgroundColorValue.r.value - backgroundColorValue.b.value;
+	background_difference.b.g = backgroundColorValue.g.value - backgroundColorValue.b.value;
     }
     else {
 	elem.style.backgroundColor = "white";
@@ -59,39 +69,87 @@ function background_bond(elem) {
     }
 }
 
-function initValues() {
+function initValues(picked_color) {
     if (!textBond) {
-	textColor.r.innerText = text_last.r = textColorValue.r.value;
-	textColor.g.innerText = text_last.g = textColorValue.g.value;
-	textColor.b.innerText = text_last.b = textColorValue.b.value;
-	textColor.a.innerText = text_last.a = textColorValue.a.value;
+    	textColor.r.innerText = textColorValue.r.value;
+    	textColor.g.innerText = textColorValue.g.value;
+    	textColor.b.innerText = textColorValue.b.value;
+    	textColor.a.innerText = textColorValue.a.value;
     }
     else {
-	let edit_distance_r = (Number(textColorValue.g.value) - Number(text_last.g)) + (Number(textColorValue.b.value) - Number(text_last.b));
-	let edit_distance_g = (Number(textColorValue.r.value) - Number(text_last.r)) + (Number(textColorValue.b.value) - Number(text_last.b));
-	let edit_distance_b = (Number(textColorValue.r.value) - Number(text_last.r)) + (Number(textColorValue.g.value) - Number(text_last.g));	
-	
-	textColor.r.innerText = textColorValue.r.value = text_last.r = (Number(textColorValue.r.value) + Number(edit_distance_r));
-	textColor.g.innerText = textColorValue.g.value = text_last.g = (Number(textColorValue.g.value) + Number(edit_distance_g));
-	textColor.b.innerText = textColorValue.b.value = text_last.b = (Number(textColorValue.b.value) + Number(edit_distance_b));
-	textColor.a.innerText = textColorValue.a.value;
+    	if (picked_color == "tv_r") {
+	    textColor.g.innerText = textColorValue.g.value = text_difference.r.g + Number(textColorValue.r.value);
+	    textColor.b.innerText = textColorValue.b.value = text_difference.r.b + Number(textColorValue.r.value);
+    	}
+	else if (picked_color == "tv_g") {
+	    textColorValue.r.value = textColor.r.innerText = text_difference.g.r + Number(textColorValue.g.value);
+	    textColorValue.b.value = textColor.b.innerText = text_difference.g.b + Number(textColorValue.g.value);
+	}
+	else if (picked_color == "tv_b") {
+	    textColorValue.r.value = textColor.r.innerText = text_difference.b.r + Number(textColorValue.b.value);
+	    textColorValue.g.value = textColor.g.innerText = text_difference.b.g + Number(textColorValue.b.value);
+	}
+
+	if (textColor.r.innerText < 0) {
+	    textColorValue.r.value = textColor.r.innerText = 0;
+	}
+	else if (textColor.r.innerText > 255) {
+	    textColorValue.r.value = textColor.r.innerText = 255;	    
+	}
+
+	if (textColor.g.innerText < 0) {
+	    textColorValue.g.value = textColor.g.innerText = 0;
+	}
+	else if (textColor.g.innerText > 255) {
+	    textColorValue.g.value = textColor.g.innerText = 255;	    
+	}
+	if (textColor.b.innerText < 0) {
+	    textColorValue.b.value = textColor.b.innerText = 0;
+	}
+	else if (textColor.b.innerText > 255) {
+	    textColorValue.b.value = textColor.b.innerText = 255;	    
+	}	
     }
 
     if (!backgroundBond) {
-	backgroundColor.r.innerText = background_last.r = backgroundColorValue.r.value;
-	backgroundColor.g.innerText = background_last.g = backgroundColorValue.g.value;
-	backgroundColor.b.innerText = background_last.b = backgroundColorValue.b.value;
-	backgroundColor.a.innerText = background_last.a = backgroundColorValue.a.value;
+    	backgroundColor.r.innerText = backgroundColorValue.r.value;
+    	backgroundColor.g.innerText = backgroundColorValue.g.value;
+    	backgroundColor.b.innerText = backgroundColorValue.b.value;
+    	backgroundColor.a.innerText = backgroundColorValue.a.value;
     }
     else {
-	let edit_distance_r = (Number(backgroundColorValue.g.value) - Number(background_last.g)) + (Number(backgroundColorValue.b.value) - Number(background_last.b));
-	let edit_distance_g = (Number(backgroundColorValue.r.value) - Number(background_last.r)) + (Number(backgroundColorValue.b.value) - Number(background_last.b));
-	let edit_distance_b = (Number(backgroundColorValue.r.value) - Number(background_last.r)) + (Number(backgroundColorValue.g.value) - Number(background_last.g));	
-	
-	backgroundColor.r.innerText = backgroundColorValue.r.value = background_last.r = (Number(backgroundColorValue.r.value) + Number(edit_distance_r));
-	backgroundColor.g.innerText = backgroundColorValue.g.value = background_last.g = (Number(backgroundColorValue.g.value) + Number(edit_distance_g));
-	backgroundColor.b.innerText = backgroundColorValue.b.value = background_last.b = (Number(backgroundColorValue.b.value) + Number(edit_distance_b));
-	backgroundColor.a.innerText = backgroundColorValue.a.value;
+    	if (picked_color == "bv_r") {
+	    backgroundColor.g.innerText = backgroundColorValue.g.value = background_difference.r.g + Number(backgroundColorValue.r.value);
+	    backgroundColor.b.innerText = backgroundColorValue.b.value = background_difference.r.b + Number(backgroundColorValue.r.value);
+    	}
+	else if (picked_color == "bv_g") {
+	    backgroundColorValue.r.value = backgroundColor.r.innerText = background_difference.g.r + Number(backgroundColorValue.g.value);
+	    backgroundColorValue.b.value = backgroundColor.b.innerText = background_difference.g.b + Number(backgroundColorValue.g.value);
+	}
+	else if (picked_color == "bv_b") {
+	    backgroundColorValue.r.value = backgroundColor.r.innerText = background_difference.b.r + Number(backgroundColorValue.b.value);
+	    backgroundColorValue.g.value = backgroundColor.g.innerText = background_difference.b.g + Number(backgroundColorValue.b.value);
+	}
+
+	if (backgroundColor.r.innerText < 0) {
+	    backgroundColorValue.r.value = backgroundColor.r.innerText = 0;
+	}
+	else if (backgroundColor.r.innerText > 255) {
+	    backgroundColorValue.r.value = backgroundColor.r.innerText = 255;	    
+	}
+
+	if (backgroundColor.g.innerText < 0) {
+	    backgroundColorValue.g.value = backgroundColor.g.innerText = 0;
+	}
+	else if (backgroundColor.g.innerText > 255) {
+	    backgroundColorValue.g.value = backgroundColor.g.innerText = 255;	    
+	}
+	if (backgroundColor.b.innerText < 0) {
+	    backgroundColorValue.b.value = backgroundColor.b.innerText = 0;
+	}
+	else if (backgroundColor.b.innerText > 255) {
+	    backgroundColorValue.b.value = backgroundColor.b.innerText = 255;	    
+	}	
     }
 
     
