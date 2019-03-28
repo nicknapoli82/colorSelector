@@ -24,8 +24,16 @@ div {
 }
 
 .base_div {
-  width: 100%;
+  float: left;
+  width: 48%;
   padding-top: 5%;
+}
+
+.text_color {
+  float: right;
+  width: 48%;
+  height: 100vh;
+  overflow-y: scroll;
 }
 
 tr {

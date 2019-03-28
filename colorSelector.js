@@ -163,3 +163,61 @@ function initValues(picked_color) {
 	backgroundColorValue.b.value + "," +
 	backgroundColorValue.a.value + ")";
 }
+
+// Lets see if we can get this to work with some text?
+
+let text_colors_element = document.getElementById("named_text_colors");
+let text_colors_array = new Array();
+
+function create_colors_array() {
+    let colors_text = text_colors_element.innerText;
+    colors_text = colors_text.split(" ");
+
+    let result = new Array();
+
+    // Consume the array (Nom nom)
+    while(colors_text.length != 0) {
+	result.push(new_color_object(colors_text.shift()));
+    }
+
+    return result;
+}
+
+function sort_colors_array() {
+}
+
+function new_color_object(the_string) {
+    let s = the_string.split(",");
+    let result = { color: s[0],
+		   hex:   s[1] };
+    return result;
+}
+
+function replace_named_text_colors() {
+    let output_text = "";
+
+    text_colors_array.forEach(function(text) {
+	output_text += '<p style="background-color:' + text.hex + '; color:' + invert_color(text.hex) + '">' + text.color + '</p>';
+    });
+    text_colors_element.innerHTML = output_text;
+}
+
+function invert_color(hex) {
+    let temp_string = hex.slice(1);
+    temp_string = parseInt(temp_string, 16);
+    let result = [(temp_string & 0xF00000) >> 20, (temp_string & 0x0F000) >> 16, temp_string & 0x00F000 >> 12, temp_string & 0x000F00 >> 8, temp_string & 0x0000F0 >> 4, temp_string & 0x00000F,];
+    
+    result[0] = 15 - result[0];
+    result[1] = 15 - result[1];
+    result[2] = 15 - result[2];
+    result[3] = 15 - result[3];
+    result[4] = 15 - result[4];
+    result[5] = 15 - result[5];
+    
+    temp_string = "#" + result[0].toString(16) + result[1].toString(16) + result[2].toString(16) + result[3].toString(16) + result[4].toString(16) + result[5].toString(16);
+    console.log(temp_string);
+    return temp_string;
+}
+
+text_colors_array = create_colors_array();
+replace_named_text_colors();
