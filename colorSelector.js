@@ -169,6 +169,13 @@ function initValues(picked_color) {
 let text_colors_element = document.getElementById("named_text_colors");
 let text_colors_array = new Array();
 
+let named_text_field_buttons = {
+    set_text: false,
+    set_background: false,
+    sort_alpha: false,
+    sort_hex: false
+};
+
 function create_colors_array() {
     let colors_text = text_colors_element.innerText;
     colors_text = colors_text.split(" ");
@@ -183,9 +190,6 @@ function create_colors_array() {
     return result;
 }
 
-function sort_colors_array() {
-}
-
 function new_color_object(the_string) {
     let s = the_string.split(",");
     let result = { color: s[0],
@@ -193,11 +197,56 @@ function new_color_object(the_string) {
     return result;
 }
 
+function sort_colors_array(button_value) {
+    if (button_value.value == "Sort Alphabetical") {
+	if (!named_text_field_buttons.sort_alpha) {
+	    button_value.style.backgroundColor = "red";
+	    button_value.style.color = "white";
+	    named_text_field_buttons.sort_alpha = true;
+	    named_text_field_buttons.sort_hex = false;
+	    
+	    let temp_button = document.getElementById("sort_text_hex");
+	    temp_button.style.backgroundColor = "white";
+	    temp_button.style.color = "black";
+
+	    text_colors_array.sort(function(a, b){
+		if (a.color < b.color){
+		    return -1;
+		}
+		else return 1;
+		    });	    
+	}
+	else return;
+    }
+    else if (button_value.value == "Sort Hex") {
+	if (!named_text_field_buttons.sort_hex) {
+	    button_value.style.backgroundColor = "red";
+	    button_value.style.color = "white";
+	    named_text_field_buttons.sort_hex = true;
+	    named_text_field_buttons.sort_alpha = false;	    
+
+	    let temp_button = document.getElementById("sort_text_alpha");
+	    temp_button.style.backgroundColor = "white";
+	    temp_button.style.color = "black";
+	    
+	    text_colors_array.sort(function(a, b){
+		if (a.hex < b.hex){
+		    return -1;
+		}
+		else return 1;
+		    });	    
+	}
+	else return;
+    }
+
+    replace_named_text_colors();
+}
+
 function replace_named_text_colors() {
     let output_text = "";
 
     text_colors_array.forEach(function(text) {
-	output_text += '<p style="background-color:' + text.hex + '; color:' + invert_color(text.hex) + '">' + text.color + '</p>';
+	output_text += '<p onclick="set_by_text_value(this)" style="background-color:' + text.hex + '; color:' + invert_color(text.hex) + '">' + text.color + '</p>';
     });
     text_colors_element.innerHTML = output_text;
 }
@@ -215,8 +264,85 @@ function invert_color(hex) {
     result[5] = 15 - result[5];
     
     temp_string = "#" + result[0].toString(16) + result[1].toString(16) + result[2].toString(16) + result[3].toString(16) + result[4].toString(16) + result[5].toString(16);
-    console.log(temp_string);
     return temp_string;
+}
+
+function set_button_right_toggle(button_value) {
+    if (button_value.value == "Named Set Text") {
+	if (!named_text_field_buttons.set_text) {
+	    button_value.style.backgroundColor = "red";
+	    button_value.style.color = "white";
+	    named_text_field_buttons.set_text = true;
+	    named_text_field_buttons.set_background = false;
+	    
+	    let temp_button = document.getElementById("set_background");
+	    temp_button.style.backgroundColor = "white";
+	    temp_button.style.color = "black";
+	}
+	else return;
+    }
+    else if (button_value.value == "Named Set Background") {
+	if (!named_text_field_buttons.set_background) {
+	    button_value.style.backgroundColor = "red";
+	    button_value.style.color = "white";
+	    named_text_field_buttons.set_background = true;
+	    named_text_field_buttons.set_text = false;	    
+
+	    let temp_button = document.getElementById("set_text");
+	    temp_button.style.backgroundColor = "white";
+	    temp_button.style.color = "black";
+	}
+	else return;
+    }
+    
+}
+
+function set_by_text_value(elem) {
+    let color = elem.style.backgroundColor;
+    let rgb = { r: 0, g: 0, b: 0 };
+    color = color.split(",");
+    rgb.r = Number.parseInt(color[0].substr(4));
+    rgb.g = Number.parseInt(color[1]);
+    rgb.b = Number.parseInt(color[2]);    
+
+    if (named_text_field_buttons.set_text) {
+	textColor.r.innerText = textColorValue.r.value = rgb.r;
+	textColor.g.innerText = textColorValue.g.value = rgb.g;
+	textColor.b.innerText = textColorValue.b.value = rgb.b;	
+    }
+    else if (named_text_field_buttons.set_background) {
+	backgroundColor.r.innerText = backgroundColorValue.r.value = rgb.r;
+    	backgroundColor.g.innerText = backgroundColorValue.g.value = rgb.g;
+    	backgroundColor.b.innerText = backgroundColorValue.b.value = rgb.b;
+    }
+
+    if(textBond) {
+	text_difference.r.g = textColorValue.g.value - textColorValue.r.value;
+	text_difference.r.b = textColorValue.b.value - textColorValue.r.value;
+	text_difference.g.r = textColorValue.r.value - textColorValue.g.value;
+	text_difference.g.b = textColorValue.b.value - textColorValue.g.value;
+	text_difference.b.r = textColorValue.r.value - textColorValue.b.value;
+	text_difference.b.g = textColorValue.g.value - textColorValue.b.value;
+    }
+
+    if(backgroundBond) {
+	background_difference.r.g = backgroundColorValue.g.value - backgroundColorValue.r.value;
+	background_difference.r.b = backgroundColorValue.b.value - backgroundColorValue.r.value;
+	background_difference.g.r = backgroundColorValue.r.value - backgroundColorValue.g.value;
+	background_difference.g.b = backgroundColorValue.b.value - backgroundColorValue.g.value;
+	background_difference.b.r = backgroundColorValue.r.value - backgroundColorValue.b.value;
+	background_difference.b.g = backgroundColorValue.g.value - backgroundColorValue.b.value;
+    }
+
+    rightSide.style.color = "rgba(" + textColorValue.r.value + "," +
+	textColorValue.g.value + "," + 
+	textColorValue.b.value + "," +
+	textColorValue.a.value + ")";
+
+    rightSide.style.backgroundColor = "rgba(" + backgroundColorValue.r.value + "," +
+	backgroundColorValue.g.value + "," +
+	backgroundColorValue.b.value + "," +
+	backgroundColorValue.a.value + ")";
 }
 
 text_colors_array = create_colors_array();
