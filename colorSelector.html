@@ -159,22 +159,22 @@
 	<tr>
 	  <td style="color: red">RED</td>
 	  <td><input id="tv_r" oninput="initValues(id)" type="range"; min="0"; max="255"; value="0"; step="1"></td>
-	  <td id="t_r"></td>
+	  <td id="t_r" onchange="update_text_values()"></td>
 	</tr>
 	<tr>
 	  <td style="color: green">GREEN</td>
 	  <td><input id="tv_g" oninput="initValues(id)" type="range"; min="0"; max="255"; value="0"; step="1"></td>
-	  <td id="t_g"></td>
+	  <td id="t_g" onchange="update_text_values()"></td>
 	</tr>
 	<tr>
 	  <td style="color: blue">BLUE</td>
 	  <td><input id="tv_b" oninput="initValues(id)" type="range"; min="0"; max="255"; value="0"; step="1"></td>
-	  <td id="t_b"></td>
+	  <td id="t_b" onchange="update_text_values()"></td>
 	</tr>
 	<tr>
 	  <td style="color: white">OPACITY</td>
 	  <td><input id="tv_a" oninput="initValues()" type="range"; min="0"; max="1"; value="1"; step="0.01"></td>
-	  <td id="t_a"></td>
+	  <td id="t_a" onchange="update_text_values()"></td>
 	</tr>
       </table>
     </div>
@@ -188,22 +188,22 @@
 	<tr>
 	  <td style="color: red">RED</td>
 	  <td><input id="bv_r" oninput="initValues(id)" type="range"; min="0"; max="255"; value="255"; step="1"></td>
-	  <td id="b_r"></td>
+	  <td id="b_r" onchange="update_background_values()"></td>
 	</tr>
 	<tr>
 	  <td style="color: green">GREEN</td>
 	  <td><input id="bv_g" oninput="initValues(id)" type="range"; min="0"; max="255"; value="255"; step="1"></td>
-	  <td id="b_g"></td>
+	  <td id="b_g" onchange="update_background_values()"></td>
 	</tr>
 	<tr>
 	  <td style="color: blue">BLUE</td>
 	  <td><input id="bv_b" oninput="initValues(id)" type="range"; min="0"; max="255"; value="255"; step="1"></td>
-	  <td id="b_b"></td>
+	  <td id="b_b" onchange="update_background_values()"></td>
 	</tr>
 	<tr>
 	  <td style="color: white">OPACITY</td>
 	  <td><input id="bv_a" oninput="initValues()" type="range"; min="0"; max="1"; value="1"; step="0.01"></td>
-	  <td id="b_a"></td>
+	  <td id="b_a" onchange="update_background_values()"></td>
 	</tr>
       </table>
     </div>
@@ -233,6 +233,13 @@
     <h4>Now &lt h4 &gt</h4>
     <h5>Please &lt h5 &gt</h5>
     <p>With some stuff &lt p &gt</p>
+    <hr>
+    <h1>Here are the values (copy/paste at your leisure)</h1><hr>
+    <div class="output_div" id="text_output">
+    </div>
+    <div class="output_div" id="background_output">
+    </div>
+    <p>Note: Hex values are in RGBA format. Remove last two characters for RGB.</p>
   </div>
   <script src="colorSelector.js"></script>
 </body>

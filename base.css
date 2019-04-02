@@ -29,6 +29,10 @@ div {
   padding-top: 5%;
 }
 
+.output_div {
+    width: 100%;
+}
+
 .text_color {
   float: right;
   width: 48%;

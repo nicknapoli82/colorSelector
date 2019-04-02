@@ -162,6 +162,9 @@ function initValues(picked_color) {
 	backgroundColorValue.g.value + "," +
 	backgroundColorValue.b.value + "," +
 	backgroundColorValue.a.value + ")";
+
+    update_text_values();
+    update_background_values();
 }
 
 // Lets see if we can get this to work with some text?
@@ -343,7 +346,57 @@ function set_by_text_value(elem) {
 	backgroundColorValue.g.value + "," +
 	backgroundColorValue.b.value + "," +
 	backgroundColorValue.a.value + ")";
+
+    update_text_values();
+    update_background_values();
 }
 
 text_colors_array = create_colors_array();
 replace_named_text_colors();
+
+// Lets update the output text in a way that is actually usable
+function update_text_values() {
+    let text_element = document.getElementById("text_output");
+    let color = {
+	r: Number.parseInt(textColor.r.innerText).toString(16),
+	g: Number.parseInt(textColor.g.innerText).toString(16),
+	b: Number.parseInt(textColor.b.innerText).toString(16),
+	a: Math.round(Number.parseFloat(textColor.a.innerText) * 255).toString(16)
+    };
+    if (color.r.length < 2) color.r = "0" + color.r;
+    if (color.g.length < 2) color.g = "0" + color.g;
+    if (color.b.length < 2) color.b = "0" + color.b;
+    
+    let text_output = "";
+    text_output += '<h1>Text Values</h1>';
+    text_output += '<p>';
+    text_output += 'rgb = {color: rgb(' + textColor.r.innerText + ',' + textColor.g.innerText + ',' + textColor.b.innerText + ');}<br>';
+    text_output += 'rgba = {color: rgba(' + textColor.r.innerText + ',' + textColor.g.innerText + ',' + textColor.b.innerText + ',' + textColor.a.innerText + ');}<br>';
+    text_output += 'hex = #' + color.r + color.g + color.b + color.a + '\n';
+    text_output += '</p>';
+    text_output += '<hr>';
+    text_element.innerHTML = text_output;
+}
+
+function update_background_values() {
+    let background_element = document.getElementById("background_output");
+    let color = {
+	r: Number.parseInt(backgroundColor.r.innerText).toString(16),
+	g: Number.parseInt(backgroundColor.g.innerText).toString(16),
+	b: Number.parseInt(backgroundColor.b.innerText).toString(16),
+	a: Math.round(Number.parseFloat(backgroundColor.a.innerText) * 255).toString(16)
+    };
+    if (color.r.length < 2) color.r = "0" + color.r;
+    if (color.g.length < 2) color.g = "0" + color.g;
+    if (color.b.length < 2) color.b = "0" + color.b;
+    
+    let background_output = "";
+    background_output += '<h1>Background Values</h1>';
+    background_output += '<p>';
+    background_output += 'rgb = {background-color: rgb(' + backgroundColor.r.innerText + ',' + backgroundColor.g.innerText + ',' + backgroundColor.b.innerText + ');}<br>';
+    background_output += 'rgba = {background-color: rgba(' + backgroundColor.r.innerText + ',' + backgroundColor.g.innerText + ',' + backgroundColor.b.innerText + ',' + backgroundColor.a.innerText + ');}<br>';
+    background_output += 'hex = #' + color.r + color.g + color.b + color.a + '\n';
+    background_output += '</p>';
+    background_output += '<hr>';
+    background_element.innerHTML = background_output;
+}
