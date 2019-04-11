@@ -78,17 +78,21 @@ function initValues(picked_color) {
     }
     else {
     	if (picked_color == "tv_r") {
+	    textColor.r.innerText = textColorValue.r.value;
 	    textColor.g.innerText = textColorValue.g.value = text_difference.r.g + Number(textColorValue.r.value);
 	    textColor.b.innerText = textColorValue.b.value = text_difference.r.b + Number(textColorValue.r.value);
     	}
 	else if (picked_color == "tv_g") {
+	    textColor.g.innerText = textColorValue.g.value;
 	    textColorValue.r.value = textColor.r.innerText = text_difference.g.r + Number(textColorValue.g.value);
 	    textColorValue.b.value = textColor.b.innerText = text_difference.g.b + Number(textColorValue.g.value);
 	}
 	else if (picked_color == "tv_b") {
+	    textColor.b.innerText = textColorValue.b.value;
 	    textColorValue.r.value = textColor.r.innerText = text_difference.b.r + Number(textColorValue.b.value);
 	    textColorValue.g.value = textColor.g.innerText = text_difference.b.g + Number(textColorValue.b.value);
 	}
+	textColor.a.innerText = textColorValue.a.value;
 
 	if (textColor.r.innerText < 0) {
 	    textColorValue.r.value = textColor.r.innerText = 0;
@@ -119,14 +123,17 @@ function initValues(picked_color) {
     }
     else {
     	if (picked_color == "bv_r") {
+	    backgroundColor.r.innerText = backgroundColorValue.r.value;
 	    backgroundColor.g.innerText = backgroundColorValue.g.value = background_difference.r.g + Number(backgroundColorValue.r.value);
 	    backgroundColor.b.innerText = backgroundColorValue.b.value = background_difference.r.b + Number(backgroundColorValue.r.value);
     	}
 	else if (picked_color == "bv_g") {
+	    backgroundColor.g.innerText = backgroundColorValue.g.value;
 	    backgroundColorValue.r.value = backgroundColor.r.innerText = background_difference.g.r + Number(backgroundColorValue.g.value);
 	    backgroundColorValue.b.value = backgroundColor.b.innerText = background_difference.g.b + Number(backgroundColorValue.g.value);
 	}
 	else if (picked_color == "bv_b") {
+	    backgroundColor.b.innerText = backgroundColorValue.b.value;
 	    backgroundColorValue.r.value = backgroundColor.r.innerText = background_difference.b.r + Number(backgroundColorValue.b.value);
 	    backgroundColorValue.g.value = backgroundColor.g.innerText = background_difference.b.g + Number(backgroundColorValue.b.value);
 	}
@@ -137,6 +144,7 @@ function initValues(picked_color) {
 	else if (backgroundColor.r.innerText > 255) {
 	    backgroundColorValue.r.value = backgroundColor.r.innerText = 255;	    
 	}
+	backgroundColor.a.innerText = backgroundColorValue.a.value;
 
 	if (backgroundColor.g.innerText < 0) {
 	    backgroundColorValue.g.value = backgroundColor.g.innerText = 0;
